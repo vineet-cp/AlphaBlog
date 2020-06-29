@@ -26,39 +26,36 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
 
-    respond_to do |format|
+    
       if @article.save
-        format.html { redirect_to @article, notice: 'Article was successfully created.' }
-        format.json { render :show, status: :created, location: @article }
+        flash[:success] = "Article was created successfully"
+        redirect_to @article
       else
-        format.html { render :new }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        render 'new'
+        
       end
     end
-  end
+ 
 
   # PATCH/PUT /articles/1
   # PATCH/PUT /articles/1.json
   def update
-    respond_to do |format|
+    
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: 'Article was successfully updated.' }
-        format.json { render :show, status: :ok, location: @article }
+        flash[:success] = "Article was updated successfully"
+        redirect_to @article
       else
-        format.html { render :edit }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        render 'edit'
       end
     end
-  end
+  
 
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
     @article.destroy
-    respond_to do |format|
-      format.html { redirect_to articles_url, notice: 'Article was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+   flash[:success] = "Article was deleted successfully"
+   redirect_to @article
   end
 
   private
@@ -71,4 +68,5 @@ class ArticlesController < ApplicationController
     def article_params
       params.require(:article).permit(:title, :description)
     end
+    
 end
